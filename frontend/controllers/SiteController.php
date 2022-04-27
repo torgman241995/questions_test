@@ -5,8 +5,11 @@ namespace frontend\controllers;
 use cheatsheet\Time;
 use common\sitemap\UrlsIterator;
 use frontend\models\ContactForm;
+use frontend\models\Questions;
 use Sitemaped\Element\Urlset\Urlset;
 use Sitemaped\Sitemap;
+use trntv\filekit\actions\DeleteAction;
+use trntv\filekit\actions\UploadAction;
 use Yii;
 use yii\filters\PageCache;
 use yii\web\BadRequestHttpException;
@@ -48,6 +51,17 @@ class SiteController extends BaseController
             'set-locale' => [
                 'class' => 'common\actions\SetLocaleAction',
                 'locales' => array_keys(Yii::$app->params['availableLocales'])
+            ],
+            'icon-upload' => [
+                'class' => UploadAction::class,
+                'deleteRoute' => 'icon-delete',
+                'on afterSave' => function ($event) {
+                    /* @var $file \League\Flysystem\File */
+                    $file = $event->file;
+                }
+            ],
+            'icon-delete' => [
+                'class' => DeleteAction::class
             ]
         ];
     }
@@ -58,7 +72,54 @@ class SiteController extends BaseController
     public function actionIndex()
     {
         $this->language();
-        return $this->render('index');
+        $model = new \common\models\Questions();
+
+        return $this->render('index', [
+                'model' => $model
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function actionQuestionsend()
+    {
+        $model = new Questions();
+
+        if (Yii::$app->request->isPost) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $questions = Yii::$app->request->post('Questions');
+            $file = $questions['file'];
+            $file_path = $file['path'] ?? NULL;
+            $file_base_url = $file['base_url'] ?? NULL;
+
+            $model->firstname = Yii::$app->request->post('firstname');
+            $model->lastname = Yii::$app->request->post('lastname');
+            $model->file = '-';
+            $model->file_path = $file_path;
+            $model->file_base_url = $file_base_url;
+            $model->status = 0;
+
+            if ($model->save()) {
+                return [
+                    'data' => [
+                        'success' => true,
+                        'model' => $model,
+                        'message' => Yii::t('frontend', 'Your message saved!'),
+                    ],
+                    'code' => 0,
+                ];
+            } else {
+                return [
+                    'data' => [
+                        'success' => false,
+                        'model' => null,
+                        'message' => Yii::t('frontend', 'Your message do not saved!'),
+                    ],
+                    'code' => 1,
+                ];
+            }
+        }
     }
 
     /**

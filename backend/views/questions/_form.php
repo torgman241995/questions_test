@@ -19,8 +19,11 @@ use yii\bootstrap4\ActiveForm;
                 <?php echo $form->field($model, 'firstname')->textInput(['maxlength' => true]) ?>
                 <?php echo $form->field($model, 'lastname')->textInput(['maxlength' => true]) ?>
                 <?php echo $form->field($model, 'file')->widget(\trntv\filekit\widget\Upload::class, [
-                    'url'=>['icon-upload']
-                ]) ?>
+                    'url'=>['icon-upload'],
+                    'maxFileSize' => 2000000,
+                    ])->hint(Yii::t('backend', 'Max File size {size}', [
+                        'size' => '2 Mb'
+                ])); ?>
                 <?php echo $form->field($model, 'status')->dropDownList($model::statusData()) ?>
                 
             </div>

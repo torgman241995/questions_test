@@ -29,17 +29,13 @@ class FrontendAsset extends AssetBundle
     public $css = [
         'css/bootstrap.min.css',
         'css/paper-kit.css?v=2.2.0',
-        'demo/demo.css',
     ];
 
     /**
      * @var array
      */
     public $js = [
-        'js/core/jquery.min.js',
-        'js/core/bootstrap.min.js',
-        'js/plugins/moment.min.js',
-        'js/paper-kit.js?v=2.2.0',
+        'js/script.js',
     ];
 
     /**
