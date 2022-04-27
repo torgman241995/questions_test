@@ -16,11 +16,14 @@ $this->title = Yii::$app->name;
                 <p class="description"><?php echo Yii::t('frontend', 'To ask our experts - fill out the form below'); ?></p>
             </div>
             <div class="col-md-5 ml-auto mr-auto download-area">
-                <?php $form = ActiveForm::begin([
-                    'action' => ['site/questionsend'],
-                    'options' => [
-                        'class' => 'question-form'
-                    ]]); ?>
+                    <?php $form = ActiveForm::begin([
+                        'action' => ['site/questionsend'],
+                        'enableClientValidation' => true,
+                        'enableAjaxValidation' => true,
+                        'options' => [
+                            'class' => 'question-form'
+                        ]
+                    ]); ?>
                     <div class="form-group">
                         <?php echo $form->field($model, 'firstname')->textInput(['id' => 'firstname_input', 'minlength' => 2, 'maxlength' => 50, 'name' => 'firstname', 'placeholder' => Yii::t('frontend', 'Enter first name'), 'required' => true])->label(Yii::t('frontend', 'First name')) ?>
                     </div>
