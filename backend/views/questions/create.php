@@ -5,9 +5,7 @@
  * @var common\models\Questions $model
  */
 
-$this->title = Yii::t('common', 'Create {modelClass}', [
-    'modelClass' => 'Questions',
-]);
+$this->title = Yii::t('common', 'Create question:');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('common', 'Questions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

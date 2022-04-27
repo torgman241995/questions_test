@@ -15,9 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="questions-index">
     <div class="card">
         <div class="card-header">
-            <?php echo Html::a(Yii::t('common', 'Create {modelClass}', [
-    'modelClass' => 'Questions',
-]), ['create'], ['class' => 'btn btn-success']) ?>
+            <?php echo Html::a(Yii::t('common', 'Create question'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
 
         <div class="card-body p-0">

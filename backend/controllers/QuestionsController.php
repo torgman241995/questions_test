@@ -2,6 +2,8 @@
 
 namespace backend\controllers;
 
+use trntv\filekit\actions\DeleteAction;
+use trntv\filekit\actions\UploadAction;
 use Yii;
 use common\models\Questions;
 use common\models\QuestionsSearch;
@@ -25,6 +27,23 @@ class QuestionsController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'icon-upload' => [
+                'class' => UploadAction::class,
+                'deleteRoute' => 'icon-delete',
+                'on afterSave' => function ($event) {
+                    /* @var $file \League\Flysystem\File */
+                    $file = $event->file;
+                }
+            ],
+            'icon-delete' => [
+                'class' => DeleteAction::class
+            ]
         ];
     }
 

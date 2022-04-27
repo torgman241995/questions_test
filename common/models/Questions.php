@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use trntv\filekit\behaviors\UploadBehavior;
 use Yii;
 
 /**
@@ -34,6 +35,21 @@ class Questions extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'file' => [
+                'class' => UploadBehavior::class,
+                'attribute' => 'file',
+                'pathAttribute' => 'file_path',
+                'baseUrlAttribute' => 'file_base_url'
+            ]
+        ];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function rules()
@@ -42,7 +58,7 @@ class Questions extends \yii\db\ActiveRecord
             [['firstname', 'lastname'], 'required'],
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['firstname', 'lastname'], 'string', 'max' => 40],
-            [['file', 'file_path', 'file_base_url'], 'string', 'max' => 255],
+            [['file'], 'safe'],
         ];
     }
 
