@@ -41,7 +41,7 @@ class QuestionsSearch extends Questions
      */
     public function search($params)
     {
-        $query = Questions::find();
+        $query = Questions::find()->orderBy(['id' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
